@@ -4,13 +4,27 @@
 
 @section('content')
 <div class="container">
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    @if (session('onSuccess'))
+        <div class="alert alert-success">
+            {{ session('onSuccess') }}
+        </div>
+    @endif
     <div class="row">
         <div class="col-md-8 offset-md-2">
             <div class="card">
                 <div class="card-header">Create Property</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('properties.store') }}">
+                    <form method="POST" action="{{ route('properties.store') }}" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-group">

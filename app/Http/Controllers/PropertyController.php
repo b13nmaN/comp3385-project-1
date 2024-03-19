@@ -1,19 +1,26 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
+use App\Models\Property;
 
 class PropertyController extends Controller
 {
     public function index()
     {
-        return view('property.index');
+        $properties = Property::all();
+        return view('property.index', compact('properties'));
     }
 
     public function create()
     {
         return view('property.create');
+    }
+
+    public function show(Property $property)
+    {
+
+        return view('property.show', compact('property'));
     }
 
     public function store (Request $request)
@@ -26,8 +33,10 @@ class PropertyController extends Controller
             'price' => 'required|numeric',
             'property_type' => 'required|string',
             'location' => 'required|string',
-            'photo' => 'nullable|string', // Assuming photo path will be stored
+            'photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // Assuming photo path will be stored
         ]);
+
+        // dd($validatedData);
         
         $property_title = $request->input('property_title');
         $description = $request->input('description');
@@ -38,7 +47,9 @@ class PropertyController extends Controller
         $location = $request->input('location');
         $photo = $request->file('photo');
 
-        $filename = $property_title . time() . '.' . $photo->getClientOriginalExtension();
+        $filename = $property_title ."_". time() . '.' . $photo->getClientOriginalExtension();
+
+        // dd($photo);
 
         // add a new property to the database
         $property = new Property();
@@ -54,7 +65,7 @@ class PropertyController extends Controller
         $photo->storeAs('photos', $filename, 'public');
         $property->save();
 
-        return redirect('/properties')->with('onSuccess', 'Property created successfully!');
+        return redirect('/properties/create')->with('onSuccess', 'Property created successfully!');
     }
 
 

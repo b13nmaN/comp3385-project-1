@@ -27,3 +27,4 @@ Route::get('/properties', [PropertyController::class, 'index']);
 
 Route::get('/properties/create', [PropertyController::class, 'create']);
 Route::post('/properties/create', [PropertyController::class, 'store'])->name('properties.store');
+Route::get('/properties/{property}', [PropertyController::class, 'show'])->name('properties.show');
