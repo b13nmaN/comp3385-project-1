@@ -18,25 +18,29 @@
 </div>
 <div class="row g-3">
     @foreach ($properties as $property)
-    <div class="col-md-3"> <!-- Adjust the column size based on your preference -->
-        <div class="card">
-            <img src="{{ asset('storage/photos/' . $property->photo) }}" alt="Property Photo" class="mb-3 img-fluid">
+    <div class="col-md-3" > <!-- Adjust the column size based on your preference -->
+        <div class="card" style="box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); border:none; ">
+            <img src="{{ asset('storage/photos/' . $property->photo) }}" alt="Property Photo" class="img-fluid" style="object-fit: cover; max-height: 12rem; border-radius: 5px 5px 0px 0px;">
             <div class="card-body">
-                <h5 class="card-title">{{ $property->property_title }}</h5>
-                <p class="card-text">{{ $property->location }}</p>
-                <div class="d-flex px-3 py-2 bg-primary text-white rounded-4 mb-3 justify-content-center" style="width: 25%;">
-                    <div class="col-md-auto"> <!-- Adjust the column size based on your preference -->
-                        <p class="card-text">${{ $property->price }}</p>
-                    </div>
+                <h5 class="card-title m-0">{{ $property->property_title }}</h5>
+                <div class="d-flex flex-row mb-3">
+                    <i class="bi bi-geo-alt text-muted me-1"></i>
+                    <p class="card-text text-muted fw-normal">{{ $property->location }}</p>
                 </div>
                 
-                <div class="card-footer ">
-                    <a href="{{ route('properties.show', $property->id) }}" class="btn btn-primary w-100">View Property</a>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <div class="chip text-white rounded-pill fw-medium" style="padding: 0.25rem 0.5rem; font-size: 0.875rem; background-color: #60A5FA;">${{ number_format($property->price, 0) }}</div>
+                    <!-- Create a chip for the price element -->
                 </div>
-              
+                
+            </div>
+            <div class="card-footer d-grid" style="padding: 0; margin-top: auto; border:none;"> <!-- Adjusted button class to take full width without padding or margin -->
+                <a href="{{ route('properties.show', $property->id) }}" style="border-radius: 0; background-color: #15B8A7; border-radius: 0 0 5px 5px;" class="btn btn-block text-white fw-medium">View Property</a>
             </div>
         </div>
+        
     </div>
+    
     @endforeach
 </div>
 
